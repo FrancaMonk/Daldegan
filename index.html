@@ -321,8 +321,7 @@
                 <div class="video-wrapper vertical">
                     <img src="assets/images/Vídeos/thumbnail01.jpg" alt="Vídeo 01" class="video-thumbnail"
                         onclick="loadVideo(this)">
-                    <!-- <video src="assets/images/Vídeos/01.mp4" preload="metadata"></video> -->
-                    <div class="video-frame" data-id="1zvEAvJ6JXjHDfzjMENdJzQF926M0BSm8" style="display: none;"></div>
+                    <video src="assets/images/Vídeos/01.mp4" preload="metadata"></video>
                 </div>
             </div>
 
@@ -397,41 +396,36 @@
     <script>
         function loadVideo(image) {
             const wrapper = image.closest('.video-wrapper');
-            const frameContainer = wrapper.querySelector('.video-frame');
+            const video = wrapper.querySelector('video');
             const thumbnail = wrapper.querySelector('.video-thumbnail');
-    
+
             // Se o vídeo já foi iniciado, não faz nada
-            if (!thumbnail || frameContainer.style.display === 'block') return;
-    
-            // Pausar/remover todos os outros vídeos
-            const allFrames = document.querySelectorAll('.video-wrapper .video-frame');
-            allFrames.forEach(f => {
-                f.innerHTML = '';
-                f.style.display = 'none';
-                const thumb = f.parentElement.querySelector('.video-thumbnail');
+            if (!thumbnail || video.style.display === 'block') return;
+
+            // Pausar todos os outros vídeos
+            const allVideos = document.querySelectorAll('.video-wrapper video');
+            allVideos.forEach(v => {
+                v.pause();
+                v.currentTime = 0; // Volta o vídeo para o início (opcional)
+                const thumb = v.parentElement.querySelector('.video-thumbnail');
                 if (thumb) {
-                    thumb.style.display = 'block';
+                    v.style.display = 'none'; // Esconde o vídeo
+                    thumb.style.display = 'block'; // Mostra a thumbnail de volta
                 }
             });
-    
-            // Pegar o ID do vídeo
-            const videoId = frameContainer.getAttribute('data-id');
-    
-            // Montar o iframe
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://drive.google.com/file/d/${videoId}/preview`;
-            iframe.width = "100%";
-            iframe.height = "100%";
-            iframe.frameBorder = "0";
-            iframe.allow = "autoplay";
-            iframe.allowFullscreen = true;
-    
-            // Trocar thumb pelo iframe
+
+            // Agora sim, preparar o novo vídeo
             thumbnail.style.display = 'none';
-            frameContainer.style.display = 'block';
-            frameContainer.appendChild(iframe);
+            video.style.display = 'block';
+            video.muted = false;
+            video.setAttribute('controls', 'controls');
+            video.play().catch(error => {
+                console.log('Erro ao reproduzir o vídeo:', error);
+            });
         }
-    </script>    
+
+
+    </script>
 
 
     <script>
