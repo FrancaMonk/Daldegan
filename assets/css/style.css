@@ -1310,7 +1310,7 @@ html {
 }
 
 .hero-counter-area .count-text.k-plus::after {
-    content: 'M';
+    content: 'Mi';
 }
 
 .hero-counter-area .count-text.percent:before {
@@ -1318,7 +1318,7 @@ html {
 }
 
 .hero-counter-area .count-text.percent::after {
-    content: 'M';
+    content: 'Mi';
 }
 
 .hero-counter-area .counter-title {
